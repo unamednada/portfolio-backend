@@ -3,14 +3,12 @@ const express = require('express');
 const { Project } = require('../models');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(express.json());
 
 app.post('/project', async (req, res) => {
-  const { title, description } = req.body;
-
-  const project = await Project.create({ title, description });
+  const project = await Project.create(req.body);
 
   return res.status(201).json(project);
 });
