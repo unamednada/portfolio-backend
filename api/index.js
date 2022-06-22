@@ -15,10 +15,20 @@ app
 
     return res.status(201).json(project);
   })
-  .get('/projects', async (req, res) => {
+  .get('/projects', async (_req, res) => {
     const projects = await Project.findAll();
 
     return res.status(200).json(projects);
+  })
+  .put('/projects/:id', async (req, res) => {
+    const project = await Project.findByPk(+req.params.id);
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    await project.update(req.body);
+    return res.status(200).json(project);
   });
 
 app.listen(port, () => { console.log(`Servidor online na porta ${port}`); });
