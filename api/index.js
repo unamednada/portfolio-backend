@@ -11,9 +11,12 @@ app.use(express.json());
 
 app
   .post('/projects', async (req, res) => {
-    const project = await Project.create(req.body);
-
-    return res.status(201).json(project);
+    try {
+      const project = await Project.create(req.body);
+      return res.status(201).json(project);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   })
   .get('/projects', async (_req, res) => {
     const projects = await Project.findAll();
